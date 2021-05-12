@@ -11,15 +11,19 @@ export default function Header(props) {
     logUserOut,
     userDetails,
     renderDepiction,
-    disableUserButton
+    disableUserButton,
   } = props
-  var email = "ah oh!";
+  var email = "ah oh!"
   if (userDetails && userDetails.email) {
-    var index = userDetails.email.indexOf("@") === -1 ?
-    0 : userDetails.email.indexOf("@");
-    index = index > hdr_username_length - 1?hdr_username_length: index;
-    email = userDetails.email.slice(0, index) +
-      (userDetails.email.slice(0, userDetails.email.indexOf("@")).length > hdr_username_length ? "..." : "")
+    var index =
+      userDetails.email.indexOf("@") === -1 ? 0 : userDetails.email.indexOf("@")
+    index = index > hdr_username_length - 1 ? hdr_username_length : index
+    email =
+      userDetails.email.slice(0, index) +
+      (userDetails.email.slice(0, userDetails.email.indexOf("@")).length >
+      hdr_username_length
+        ? "..."
+        : "")
   }
   const parClassName = className ? " " + className : ""
   return (

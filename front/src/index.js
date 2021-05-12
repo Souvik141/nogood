@@ -2,12 +2,12 @@ import React from "react"
 import ReactDOM from "react-dom"
 import "./index.css"
 import App from "./App"
-import _news_, { _news_c, _news_e } from "./components/_news_"
+import _news_, {_news_c, _news_e} from "./components/_news_"
 import reportWebVitals from "./reportWebVitals"
 
 ReactDOM.render(
   <React.StrictMode>
-    <App className="app-cls" />
+    <App className='app-cls' />
     {/* <_news_
       title="TITLE"
       description="DESCRIPTION"

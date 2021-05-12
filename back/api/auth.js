@@ -1,11 +1,14 @@
 const router = require("express").Router()
-var vfMail = '';
-require('fs').readFile('./files/vrfcsn_mail.html', function (ahOh, file) {
- vfMail = file.toString();
-});
+const config = require("../config")
+var vfMail = ""
+require("fs").readFile(
+  config.auth_verification_mail_path,
+  function (ahOh, file) {
+    vfMail = file.toString()
+  }
+)
 const casualEntity = require("../models/CasualEntity")
 const formalEntity = require("../models/FormalEntity")
-const config = require("../config")
 const jwt = require("jsonwebtoken")
 const bodyParser = require("body-parser")
 
@@ -18,43 +21,43 @@ router.use(bodyParser.json())
 
 /* Request Registration */
 router.post("/request-registration", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   casualEntity
-  .findOne()
-  .where({
-    email: rqst.body.email
-  })
-  .exec((ahOh, ntt) => {
-    if (ahOh) config.handleError(ahOh, rqst, rspns) /* error scenario */
-    else if (ntt) {
-      if (!ntt.formalized) {
-        /* scenario 1: already requested registration */
-        rspnsBdy.description = config.RGRSTD001
-        rspns.status(config.RGRSTD001_STCD).json(rspnsBdy)
-      } else {
-        /* scenario 2: already registered */
-        rspnsBdy.description = config.RGRSTD002
-        rspns.status(config.RGRSTD002_STCD).json(rspnsBdy)
-      }
-    } else {
-      new casualEntity({
-        email: rqst.body.email,
-        password: rqst.body.password
-      }).save((ahOh) => {
-        if (ahOh) config.handleError(ahOh, rqst, rspns)
-        else {
-          /* scenario 3: everything went flawlessly?? */
-          rspnsBdy.description = config.RGRSTD003
-          rspns.status(config.RGRSTD003_STCD).json(rspnsBdy)
+    .findOne()
+    .where({
+      email: rqst.body.email
+    })
+    .exec((ahOh, ntt) => {
+      if (ahOh) config.handleError(ahOh, rqst, rspns)
+      /* error scenario */ else if (ntt) {
+        if (!ntt.formalized) {
+          /* scenario 1: already requested registration */
+          rspnsBdy.description = config.RGRSTD001
+          rspns.status(config.RGRSTD001_STCD).json(rspnsBdy)
+        } else {
+          /* scenario 2: already registered */
+          rspnsBdy.description = config.RGRSTD002
+          rspns.status(config.RGRSTD002_STCD).json(rspnsBdy)
         }
-      })
-    }
-  })
+      } else {
+        new casualEntity({
+          email: rqst.body.email,
+          password: rqst.body.password
+        }).save((ahOh) => {
+          if (ahOh) config.handleError(ahOh, rqst, rspns)
+          else {
+            /* scenario 3: everything went flawlessly?? */
+            rspnsBdy.description = config.RGRSTD003
+            rspns.status(config.RGRSTD003_STCD).json(rspnsBdy)
+          }
+        })
+      }
+    })
 })
 
 //Generate Verification Code
 router.get("/generate-verification-code/:email", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   const DATE_NOW = Date.now()
   const vercode = (DATE_NOW % config.ENCODE_MOD) + config.ENCODE_OFFSET
   casualEntity
@@ -78,18 +81,20 @@ router.get("/generate-verification-code/:email", (rqst, rspns, next) => {
               rspnsBdy.message = config.usr_dsnt_xst
               rspns.status(config.usr_dsnt_xst_stcd).json(rspnsBdy)
             } else {
-              vfMail = vfMail.toString().replace("{{$domain}}", config.server_domain);
-              vfMail = vfMail.toString().replace("{{$vercode}}", vercode);
-              vfMail = vfMail.toString().replace("{{$email}}", ntt.email);
+              vfMail = vfMail
+                .toString()
+                .replace("{{$domain}}", config.server_domain)
+              vfMail = vfMail.toString().replace("{{$vercode}}", vercode)
+              vfMail = vfMail.toString().replace("{{$email}}", ntt.email)
               var mailOptions = {
                 from: config.server_email,
                 to: ntt.email,
-                subject: 'Email to verify your registration',
+                subject: "Email to verify your registration",
                 html: vfMail
-              };
-              config.transporter.sendMail(mailOptions, function(ahOh){
+              }
+              config.transporter.sendMail(mailOptions, function (ahOh) {
                 if (ahOh) config.handleError(ahOh, rqst, rspns)
-              });
+              })
               rspnsBdy.description = config.vfcode_gen
               rspns.status(config.vfcode_gen_stcd).json(rspnsBdy)
             }
@@ -103,7 +108,7 @@ router.get("/generate-verification-code/:email", (rqst, rspns, next) => {
 })
 
 router.get("/verify-registration", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   const DATE_NOW = Date.now()
   let responseStatus = 400
   casualEntity
@@ -112,14 +117,13 @@ router.get("/verify-registration", (rqst, rspns, next) => {
       email: decodeURI(rqst.query.email),
       formalized: false
     })
-    .exec((ahOh, ntt)=>{
-      if(ahOh) config.handleError(ahOh, rqst, rspns)
+    .exec((ahOh, ntt) => {
+      if (ahOh) config.handleError(ahOh, rqst, rspns)
       else if (ntt) {
         responseStatus = 200
         if (
           rqst.query.vercode === ntt.verificationCode &&
-          ntt.verificationCodeTimestamp + config.TIMESTAMP_OFFSET >=
-            DATE_NOW
+          ntt.verificationCodeTimestamp + config.TIMESTAMP_OFFSET >= DATE_NOW
         ) {
           formalEntity
             .findOne()
@@ -127,9 +131,10 @@ router.get("/verify-registration", (rqst, rspns, next) => {
               email: ntt.email
             })
             .exec((ahOh, fntt) => {
-              if(ahOh) config.handleError(ahOh, rqst, rspns)
+              if (ahOh) config.handleError(ahOh, rqst, rspns)
               else if (fntt) {
-                rspnsBdy.description = "Entity already formalized, how the F it happend?"
+                rspnsBdy.description =
+                  "Entity already formalized, how the F it happend?"
                 rspns.status(400).json(rspnsBdy)
               } else {
                 new formalEntity({
@@ -138,7 +143,7 @@ router.get("/verify-registration", (rqst, rspns, next) => {
                   isLoggedIn: false,
                   unverifiedUserId: ntt._id
                 }).save((ahOh, ntt) => {
-                  if(ahOh) config.handleError(ahOh, rqst, rspns)
+                  if (ahOh) config.handleError(ahOh, rqst, rspns)
                   else {
                     casualEntity.findByIdAndUpdate(
                       ntt._id,
@@ -147,7 +152,7 @@ router.get("/verify-registration", (rqst, rspns, next) => {
                         verifiedUserId: ntt.id
                       },
                       (ahOh) => {
-                        if(ahOh) config.handleError(ahOh, rqst, rspns)
+                        if (ahOh) config.handleError(ahOh, rqst, rspns)
                       }
                     )
                     responseStatus = 200
@@ -172,7 +177,7 @@ router.get("/verify-registration", (rqst, rspns, next) => {
 
 //Request login (used JWT)
 router.post("/request-login", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   formalEntity
     .findOne()
     .where({
@@ -221,7 +226,7 @@ router.post("/request-login", (rqst, rspns, next) => {
 })
 
 router.get("/request-logout/:email", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   let responseStatus = 400
   formalEntity
     .findOne()
@@ -229,8 +234,9 @@ router.get("/request-logout/:email", (rqst, rspns, next) => {
       email: rqst.params.email
     })
     .exec((ahOh, ntt) => {
-      if(ahOh) config.handleError(ahOh, rqst, rspns)
-      else if(ntt) {responseStatus = 200
+      if (ahOh) config.handleError(ahOh, rqst, rspns)
+      else if (ntt) {
+        responseStatus = 200
         rspnsBdy.data.auth = true
         rspnsBdy.data.token = jwt.sign(
           {
@@ -248,7 +254,7 @@ router.get("/request-logout/:email", (rqst, rspns, next) => {
             lastActiveFrom: ""
           },
           (ahOh) => {
-            if(ahOh) config.handleError(ahOh, rqst, rspns)
+            if (ahOh) config.handleError(ahOh, rqst, rspns)
             else {
               responseStatus = 200
               rspnsBdy.message = config.USER_LOGGED_OUT_SUCCESSFULLY
@@ -261,14 +267,14 @@ router.get("/request-logout/:email", (rqst, rspns, next) => {
 })
 
 router.post("/request-password-change", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   formalEntity
     .findOne()
     .where({
       email: rqst.body.email
     })
-    .exec((ahOh, ntt)=>{
-      if(ahOh) config.handleError(ahOh, rqst, rspns)
+    .exec((ahOh, ntt) => {
+      if (ahOh) config.handleError(ahOh, rqst, rspns)
       else if (ntt) {
         rspnsBdy.data.token = jwt.sign(
           {
@@ -289,9 +295,9 @@ router.post("/request-password-change", (rqst, rspns, next) => {
 })
 
 router.post("/change-password", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   var token = rqst.headers["x-access-token"]
-  var nwPwd = rqst.body.password;
+  var nwPwd = rqst.body.password
   if (!token) {
     rspnsBdy.description = config.bad_rqst
     return rspns.status(config.bad_rqst_stcd).send(rspnsBdy)
@@ -303,7 +309,7 @@ router.post("/change-password", (rqst, rspns, next) => {
       {
         password: nwPwd
       },
-      (ahOh, ntt)=>{
+      (ahOh, ntt) => {
         if (ahOh) config.handleError(ahOh, rqst, rspns)
         if (!ntt) {
           rspnsBdy.description = config.usr_dsnt_xst
@@ -317,7 +323,7 @@ router.post("/change-password", (rqst, rspns, next) => {
 })
 
 router.get("/validate", (rqst, rspns, next) => {
-  var rspnsBdy = {data:{},description:{}}
+  var rspnsBdy = {data: {}, description: {}}
   var token = rqst.headers["x-access-token"]
 
   if (!token) {
@@ -328,14 +334,13 @@ router.get("/validate", (rqst, rspns, next) => {
   jwt.verify(token, config.secret, function (ahOh, decoded) {
     if (ahOh) {
       config.handleError(ahOh, rqst, rspns)
-    }
-    else
+    } else
       formalEntity.findById(
         decoded.id,
         {
           _id: 0,
           password: 0,
-          __v: 0,
+          __v: 0
         },
         function (ahOh, ntt) {
           if (ahOh) config.handleError(ahOh, rqst, rspns)

@@ -6,16 +6,18 @@ const HeaderUser = (props) => {
   return (
     <>
       <div
-        className={'hdr-butt0' + (loggedIn ? " lgd":" nlgd") + (disableUserButton ? " disable":"")}
+        className={
+          "hdr-butt0" +
+          (loggedIn ? " lgd" : " nlgd") +
+          (disableUserButton ? " disable" : "")
+        }
         onClick={() => {
-          !loggedIn?
-          props.renderAuthForm()
-          :props.renderDepiction();
+          !loggedIn ? props.renderAuthForm() : props.renderDepiction()
         }}>
         <img src={logo} className='hdr-user-logo' alt='logo' />
         <a className='hdr-text'>{authText}</a>
       </div>
-      <div className={'hdr-butt-cln' + (loggedIn ? " lgd":" nlgd")}></div>
+      <div className={"hdr-butt-cln" + (loggedIn ? " lgd" : " nlgd")}></div>
     </>
   )
 }

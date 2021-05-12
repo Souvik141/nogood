@@ -29,7 +29,7 @@ async function _registerUser(eml, pwd, call) {
     return call(responseJson.description.message)
   }
   if (responseJson.description.message_code === "003")
-  call("Registration requested, please verify your mail id")
+    call("Registration requested, please verify your mail id")
   return await fetch(
     domain + "api/auth/generate-verification-code?email=" + encodeURI(eml),
     {
@@ -143,7 +143,7 @@ export default class AuthForm extends React.Component {
       commPwd: undefined,
       regRtypePwd: undefined,
       renderedForm: "login",
-      validationError: undefined
+      validationError: undefined,
     }
   }
   componentDidUpdate(prevProps, prevState) {
@@ -151,25 +151,25 @@ export default class AuthForm extends React.Component {
       this.setState({
         apiResTyp: false,
         apiResTxt: undefined,
-        validationError: undefined
+        validationError: undefined,
       })
     }
   }
   onEmlChng = (event) => {
     this.setState({
       commEml: event.target.value,
-      apiResTyp: false
+      apiResTyp: false,
     })
   }
   onPwdChng = (event) => {
     this.setState({
       commPwd: event.target.value,
-      apiResTyp: false
+      apiResTyp: false,
     })
   }
   onRtypePwdChng = (event) => {
     this.setState({
-      regRtypePwd: event.target.value
+      regRtypePwd: event.target.value,
     })
   }
   _validate() {
@@ -177,31 +177,41 @@ export default class AuthForm extends React.Component {
     var flag = true
     if (this.state.renderedForm === "forgotpwd") {
       if (!this.state.commEml) {
-        this.setState({validationError: 'You need to provide the email address'})
+        this.setState({
+          validationError: "You need to provide the email address",
+        })
         return false
       }
-      if(!this.state.commEml.match(mailFormat)) {
-        this.setState({validationError: 'Please provide a valid email address'})
+      if (!this.state.commEml.match(mailFormat)) {
+        this.setState({validationError: "Please provide a valid email address"})
         return false
       }
     }
     if (this.state.renderedForm === "login") {
       if (!this.state.commEml || !this.state.commPwd) {
-        this.setState({validationError: 'Please fill up all the following fields'})
+        this.setState({
+          validationError: "Please fill up all the following fields",
+        })
         return false
       }
-      if(!this.state.commEml.match(mailFormat)) {
-        this.setState({validationError: 'Please provide a valid email address'})
+      if (!this.state.commEml.match(mailFormat)) {
+        this.setState({validationError: "Please provide a valid email address"})
         return false
       }
     }
     if (this.state.renderedForm === "registration") {
-      if (!this.state.commEml || !this.state.commPwd || !this.state.regRtypePwd) {
-        this.setState({validationError: 'Please fill up all the following fields'})
+      if (
+        !this.state.commEml ||
+        !this.state.commPwd ||
+        !this.state.regRtypePwd
+      ) {
+        this.setState({
+          validationError: "Please fill up all the following fields",
+        })
         return false
       }
       if (this.state.commPwd !== this.state.regRtypePwd) {
-        this.setState({validationError: 'Passwords are not matching!'})
+        this.setState({validationError: "Passwords are not matching!"})
         return false
       }
     }
@@ -230,9 +240,9 @@ export default class AuthForm extends React.Component {
       const responseJson = await _registerUser(
         this.state.commEml,
         this.state.commPwd,
-        (msg)=>{
+        (msg) => {
           this.setState({
-            validationError: msg
+            validationError: msg,
           })
         }
       )
@@ -241,14 +251,11 @@ export default class AuthForm extends React.Component {
   onSubmitForgotPwd = async (event) => {
     event.preventDefault()
     if (this._validate() && this.state.renderedForm === "forgotpwd") {
-      const responseJson = await _registerUser(
-        this.state.commEml,
-        (msg)=>{
-          this.setState({
-            validationError: msg
-          })
-        }
-      )
+      const responseJson = await _registerUser(this.state.commEml, (msg) => {
+        this.setState({
+          validationError: msg,
+        })
+      })
     }
   }
   render() {
@@ -315,7 +322,9 @@ export default class AuthForm extends React.Component {
           },
           heading
         ),
-        this.state.validationError && (<_validationTxt txt={this.state.validationError} typ='e' />),
+        this.state.validationError && (
+          <_validationTxt txt={this.state.validationError} typ='e' />
+        ),
         React.createElement(
           "form",
           {
@@ -340,8 +349,7 @@ export default class AuthForm extends React.Component {
           {className: "auth-xtrs"},
           <a
             key={lft}
-            onClick={() => this.setState({renderedForm: leftlinkActn})
-          }>
+            onClick={() => this.setState({renderedForm: leftlinkActn})}>
             {leftlink}
           </a>,
           <a

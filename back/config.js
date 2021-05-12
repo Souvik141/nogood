@@ -8,10 +8,7 @@ const __logError = (ahOh, rqst) => {
       request_params: JSON.stringify(rqst.params),
       request_query: JSON.stringify(rqst.query),
       request_body: JSON.stringify(rqst.body),
-      error_description: JSON.stringify(
-        ahOh,
-        Object.getOwnPropertyNames(ahOh)
-      )
+      error_description: JSON.stringify(ahOh, Object.getOwnPropertyNames(ahOh))
     }).save()
     return true
   } catch (ahOh) {
@@ -40,7 +37,7 @@ module.exports = {
   ENCODE_MOD: 5478,
   ENCODE_OFFSET: 3411,
   TIMESTAMP_OFFSET: 300000,
-  
+
   RGRSTD001_STCD: 400,
   RGRSTD001: {
     message_code: "001",
@@ -70,12 +67,13 @@ module.exports = {
   usr_lrdy_vrfied_stcd: 400,
   usr_lrdy_vrfied: {
     message_code: "006",
-    message: "User is already verified, try logging in",
+    message: "User is already verified, try logging in"
   },
   pwd_chng_rqst_aknowldgd_stcd: 200,
   pwd_chng_rqst_aknowldgd: {
     message_code: "007",
-    message: "Password change request acknowledged, check your email for further instruction"
+    message:
+      "Password change request acknowledged, check your email for further instruction"
   },
   bad_rqst_stcd: 500,
   bad_rqst: {
@@ -108,7 +106,7 @@ module.exports = {
     ahOh: {}
   },
   handleError: (ahOh, rqst, rspns) => {
-    var response = {data: {},description:{},ahOh: {}}
+    var response = {data: {}, description: {}, ahOh: {}}
     response.description = {
       message_code: "000",
       message: "Something went wrong, please contact your System Administrator"
@@ -127,5 +125,6 @@ module.exports = {
       pass: "KivuoS 90*71#_"
     }
   }),
-  server_email: "dsouvik141@gmail.com"
+  server_email: "dsouvik141@gmail.com",
+  auth_verification_mail_path: "./files/vrfcsn_mail.html"
 }

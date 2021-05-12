@@ -19,7 +19,7 @@ class App extends React.Component {
       userDetailRetrieved: false,
       renderAuthForm: false,
       renderDepiction: false,
-      disableUserButton: false
+      disableUserButton: false,
     }
   }
   componentDidMount() {
@@ -33,8 +33,7 @@ class App extends React.Component {
     this._validateToken()
   }
   componentDidUpdate(prevProps, prevState) {
-    if (!this.state.validated
-      || prevState.token !== this.state.token) {
+    if (!this.state.validated || prevState.token !== this.state.token) {
       this._validateToken()
     }
   }
@@ -67,22 +66,22 @@ class App extends React.Component {
   }
   _renderDepiction(userDetails) {
     // if (this.state.renderDepiction) {
-      return (
-        <Depiction
-          userData={userDetails}
-          reValidate={()=>{
-            this.setState({validated: false})
-            this._validateToken()
-          }}
-          className={this.state.renderDepiction?"s":"e"}
-          renderForm={this.state.renderDepiction}
-          updating={()=>{
-            this.setState({
-              disableUserButton:!this.state.disableUserButton
-            })
-          }}
-        />
-      );
+    return (
+      <Depiction
+        userData={userDetails}
+        reValidate={() => {
+          this.setState({validated: false})
+          this._validateToken()
+        }}
+        className={this.state.renderDepiction ? "s" : "e"}
+        renderForm={this.state.renderDepiction}
+        updating={() => {
+          this.setState({
+            disableUserButton: !this.state.disableUserButton,
+          })
+        }}
+      />
+    )
     // }
   }
   async logUserOut() {
@@ -116,19 +115,17 @@ class App extends React.Component {
           headers: {"x-access-token": this.getToken()},
         }
       ).then((response) => response.json())
-      
-      console.log("PARENT");
-      console.log(responseJson.data);
-      if (responseJson.data !== undefined
-        && responseJson.ahOh === undefined) {
+
+      console.log("PARENT")
+      console.log(responseJson.data)
+      if (responseJson.data !== undefined && responseJson.ahOh === undefined) {
         this.setState({
           userDetails: responseJson.data,
           userDetailRetrieved: true,
           validated: true,
           loggedIn: true,
         })
-      }
-      else {
+      } else {
         this.setState({
           userDetails: undefined,
           userDetailRetrieved: false,
@@ -150,18 +147,24 @@ class App extends React.Component {
       <div>
         {this._renderAuthForm()}
         <Header
-          renderAuthForm={() => !this.state.loggedIn ?
-            this.setState({renderAuthForm: true}): this.setState({renderAuthForm: false})}
+          renderAuthForm={() =>
+            !this.state.loggedIn
+              ? this.setState({renderAuthForm: true})
+              : this.setState({renderAuthForm: false})
+          }
           renderDepiction={() => {
             this.setState({
-              disableUserButton:!this.state.disableUserButton,
-              renderDepiction: !this.state.renderDepiction
+              disableUserButton: !this.state.disableUserButton,
+              renderDepiction: !this.state.renderDepiction,
             })
-            setTimeout(() => {
-              this.setState({
-                disableUserButton:!this.state.disableUserButton,
-              })
-            }, this.state.renderDepiction?300:1000);
+            setTimeout(
+              () => {
+                this.setState({
+                  disableUserButton: !this.state.disableUserButton,
+                })
+              },
+              this.state.renderDepiction ? 300 : 1000
+            )
           }}
           logUserOut={() => this.logUserOut()}
           className={headerClass}
