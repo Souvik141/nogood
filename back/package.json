@@ -1,0 +1,46 @@
+{
+  "name": "mern-fsd-pj-zoziozoq-back-end-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Souvik141/mern-fsd-pj-zoziozoq-back-end-api.git"
+  },
+  "author": "sav",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Souvik141/mern-fsd-pj-zoziozoq-back-end-api/issues"
+  },
+  "homepage": "https://github.com/Souvik141/mern-fsd-pj-zoziozoq-back-end-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.15",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.4.18",
+    "prettier": "^2.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "prettier": {
+    "trailingComma": "none",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": false,
+    "jsxSingleQuote": true,
+    "bracketSpacing": false,
+    "jsxBracketSameLine": true,
+    "arrowParens": "always",
+    "htmlWhitespaceSensitivity": "css",
+    "endOfLine": "lf"
+  }
+}
