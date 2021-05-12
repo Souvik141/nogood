@@ -1,0 +1,17 @@
+.disable {
+  pointer-events: none;
+  opacity: 0.5;
+}
+input:focus {
+  outline: none;
+}
+.hidden {
+  display: none;
+}
+.lgin-frm-onclk {
+  position: fixed;
+  left: 50vw;
+  top: 50vh;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}

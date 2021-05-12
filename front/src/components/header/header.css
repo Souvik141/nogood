@@ -1,0 +1,85 @@
+.hdr {
+  width: auto;
+  height: 5vh;
+  min-height: 50px;
+  padding: 0px 10vw;
+  background-color: #264653;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1;
+}
+.hdr-logo {
+  color: #fff;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-size: 5ch;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease-out;
+  letter-spacing: 2px;
+}
+.hdr-logo:hover {
+  letter-spacing: 7px;
+}
+.hdr-usr-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.hdr-butt0 {
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+}
+.hdr-butt0.lgd {
+  width: 150px;
+}
+.hdr-butt0.nlgd {
+  width: 120px;
+}
+.hdr-butt-cln {
+  height: 2px;
+  width: 20px;
+  background-color: #fff;
+  transition: 0.5s;
+}
+.hdr-butt0.lgd:hover + .hdr-butt-cln.lgd {
+  width: 150px;
+}
+.hdr-butt0.nlgd:hover + .hdr-butt-cln.nlgd {
+  width: 120px;
+}
+.hdr-butt0 {
+  height: 50px;
+  width: 120px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+}
+.hdr-butt-cln {
+  height: 2px;
+  width: 20px;
+  background-color: #fff;
+  transition: 0.5s;
+}
+.hdr-butt0:hover + .hdr-butt-cln {
+  width: 120px;
+}
+.hdr-user-logo {
+  height: 30px;
+  pointer-events: none;
+}
+.hdr-text {
+  font-size: 11px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: bold;
+  color: #fff;
+}
