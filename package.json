@@ -1,21 +1,11 @@
 {
-  "name": "front-client",
+  "name": "npgood",
   "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.9",
-    "@testing-library/react": "^11.2.5",
-    "@testing-library/user-event": "^12.6.3",
-    "axios": "^0.21.1",
-    "browser-image-compression": "^1.0.14",
-    "prettier": "^2.2.1",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.2",
-    "web-vitals": "^1.1.0"
-  },
+  "private": false,
+  "description": "not have any, for now",
   "scripts": {
     "start": "set port=3001 && react-scripts start",
+    "server": "nodemon back/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -55,5 +45,11 @@
     "arrowParens": "always",
     "htmlWhitespaceSensitivity": "css",
     "endOfLine": "lf"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/Souvik141/front-client/issues"
+  },
+  "homepage": "https://github.com/Souvik141/front-client#readme",
+  "main": "index.js",
+  "license": "ISC"
 }
