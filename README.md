@@ -42,10 +42,12 @@ Create a .env file in then root and add the following
 
 ```
 NODE_ENV = development
-PORT = 5000
+PORT = 2100
+SERVER_PORT = 2180
 MONGO_URI = your mongodb uri
-JWT_SECRET = 'abc123'
-PAYPAL_CLIENT_ID = your paypal client id
+SECRET = secret for Json Web Token
+SERVER_EMAIL = server email, for sending mails
+SERVER_PASSWORD = server email according password
 ```
 
 ### Install Dependencies (frontend & backend)
