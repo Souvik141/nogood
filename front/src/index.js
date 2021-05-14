@@ -1,23 +1,18 @@
 import React from "react"
 import ReactDOM from "react-dom"
+import { Provider } from 'react-redux'
+import store from './store'
 import "./index.css"
 import App from "./App"
 import _news_, {_news_c, _news_e} from "./components/_news_"
 import reportWebVitals from "./reportWebVitals"
-
+//trial and error
+import Depiction from "./components/depiction/depiction.js"
+console.log(require("dotenv").config())
 ReactDOM.render(
-  <React.StrictMode>
-    <App className='app-cls' />
-    {/* <_news_
-      title="TITLE"
-      description="DESCRIPTION"
-    />
-    <_news_c />
-    <_news_e
-      title="TITLE"
-      description="DESCRIPTION"
-    /> */}
-  </React.StrictMode>,
+  <Provider className='app-cls' store={store}>
+    <App />
+  </Provider>,
   document.getElementById("root")
 )
 

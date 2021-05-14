@@ -1,24 +1,25 @@
 const express = require("express")
 const mongoose = require("mongoose")
-const cors = require("cors")
 const path = require("path")
-const config = require("./config")
+const morgan = require("morgan")
 const app = express()
+require("dotenv").config()
 
-app.use(cors())
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("dev"))
+}
+
+app.use(express.json())
 //connect to mongodb
-mongoose.connect(
-  "mongodb://localhost:27017/mern-fsd-pj-zoziozoq-back-end-api",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-  }
-)
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+})
 
 // on connection
 mongoose.connection.on("connected", () => {
-  console.log("Connectd to database mongodb @ 27017")
+  console.log(`Connectd to database mongodb @ ${process.env.MONGO_URI}`)
 })
 
 mongoose.connection.on("error", (err) => {
@@ -32,22 +33,8 @@ app.use("/api/profile", require("./api/profile.js"))
 app.use("/api/news", require("./api/news.js"))
 app.use("/api/generic", require("./api/generic.js"))
 
-app.listen(config.port, () => {
-  console.log("Server strted at port:" + config.port)
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(
+    `Server running in ${process.env.NODE_ENV} environment on port ${process.env.SERVER_PORT}`
+  )
 })
-
-// const convoSection = require("./models/ConvoSection")
-// const convoContribution = require("./models/ConvoContribution")
-// var newConvoContrib = new convoContribution({
-//   contributor: 'Sav',
-//   contributor_unique: 'sav',
-//   contributor_contribution: '...\nHave totally no idea :|'
-// });
-// new convoSection({
-//   creator: 'Some One',
-//   creator_unique: 'chuku_baka',
-//   to: 'all',
-//   to_unique: 'all',
-//   conversation_subject: 'What the heck Government is there for?',
-//   contributions: [newConvoContrib]
-// }).save();

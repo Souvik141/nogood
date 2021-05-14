@@ -5,30 +5,30 @@ module.exports = mongoose.model(
   mongoose.Schema({
     creator: {
       type: String,
-      required: true
+      required: true,
     },
     creator_unique: {
       type: String,
-      required: true
+      required: true,
     },
     to: {
       type: String,
-      required: true
+      required: true,
     },
     to_unique: {
       type: String,
-      required: true
+      required: true,
     },
     conversation_subject: {
       type: String,
-      required: true
+      required: true,
     },
     conversation_description: String,
     contributions: [
       {
         type: ConvoContribution.schema,
-        default: () => ({})
-      }
-    ]
+        default: () => ({}),
+      },
+    ],
   })
 )

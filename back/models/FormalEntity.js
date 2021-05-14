@@ -4,21 +4,21 @@ module.exports = mongoose.model(
   mongoose.Schema({
     email: {
       type: String,
-      required: true
+      required: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     isLoggedIn: Boolean,
     lastActiveFrom: String,
     CasualEntity_Id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "CasualEntity"
+      ref: "CasualEntity",
     },
     Image_Id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Image"
+      ref: "Image",
     },
     firstName: String,
     middleName: String,
@@ -28,13 +28,13 @@ module.exports = mongoose.model(
       {
         news_id: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true
+          required: true,
         },
         news_title: {
           type: String,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   })
 )

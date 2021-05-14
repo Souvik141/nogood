@@ -16,7 +16,7 @@ const PRDCT_REGISTERED = {message_code: "001", message: "Product registered"}
 router.post("/register-product", (req, res, next) => {
   new product({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
   }).save((error, user) => {
     if (error) {
       new loggedError({
@@ -24,7 +24,7 @@ router.post("/register-product", (req, res, next) => {
         error_description: JSON.stringify(
           error,
           Object.getOwnPropertyNames(error)
-        )
+        ),
       }).save()
       response.description = GENERIC_ERROR
       res.status(400).json(response)

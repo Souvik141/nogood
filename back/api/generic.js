@@ -66,7 +66,7 @@ router.get("/request-data", (req, res, next) => {
     req_signedCookies: req.signedCookies,
     req_stale: req.stale,
     req_subdomains: req.subdomains,
-    req_xhr: req.xhr
+    req_xhr: req.xhr,
   })
 })
 

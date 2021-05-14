@@ -1,4 +1,3 @@
-import "./news.css"
 import {Component} from "react"
 
 export default class _news_review_ extends Component {

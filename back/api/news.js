@@ -7,7 +7,7 @@ const bodyParser = require("body-parser")
 
 router.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 )
 router.use(bodyParser.json())
@@ -30,9 +30,9 @@ router.put("/create-news", (rqst, rspns, next) => {
             $push: {
               news: {
                 news_id: ntt._id,
-                news_title: ntt.title
-              }
-            }
+                news_title: ntt.title,
+              },
+            },
           },
           (ahOh) => {
             if (ahOh) config.handleError(ahOh, rqst, rspns)
@@ -40,7 +40,7 @@ router.put("/create-news", (rqst, rspns, next) => {
         )
         responseStatus = 200
         rspnsBdy.message = {
-          message: "news added"
+          message: "news added",
         }
         rspns.status(responseStatus).json(rspnsBdy)
       }
@@ -63,7 +63,7 @@ router.put("/edit-news", (rqst, rspns, next) => {
       else {
         responseStatus = 200
         rspnsBdy.message = {
-          message: "news edited"
+          message: "news edited",
         }
         rspns.status(responseStatus).json(rspnsBdy)
       }
@@ -89,9 +89,9 @@ router.delete("/delete-news", (rqst, rspns, next) => {
             $push: {
               news: {
                 news_id: ntt._id,
-                news_title: ntt.title
-              }
-            }
+                news_title: ntt.title,
+              },
+            },
           },
           (ahOh) => {
             if (ahOh) config.handleError(ahOh, rqst, rspns)
@@ -99,7 +99,7 @@ router.delete("/delete-news", (rqst, rspns, next) => {
         )
         responseStatus = 200
         rspnsBdy.message = {
-          message: "news added"
+          message: "news added",
         }
         rspns.status(responseStatus).json(rspnsBdy)
       }

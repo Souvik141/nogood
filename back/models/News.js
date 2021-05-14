@@ -4,35 +4,35 @@ module.exports = mongoose.model(
   mongoose.Schema({
     owner_id: {
       type: String,
-      required: true
+      required: true,
     },
     owner_name: {
       type: String,
-      required: true
+      required: true,
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     reviews: [
       {
         review_description: {
           type: String,
-          required: true
+          required: true,
         },
         review_owner_id: {
           type: mongoose.Schema.Types.ObjectId,
-          required: true
+          required: true,
         },
         review_owner_name: {
           type: String,
-          required: true
-        }
-      }
-    ]
+          required: true,
+        },
+      },
+    ],
   })
 )

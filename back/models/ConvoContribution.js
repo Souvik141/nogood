@@ -4,15 +4,15 @@ module.exports = mongoose.model(
   mongoose.Schema({
     contributor: {
       type: String,
-      required: true
+      required: true,
     },
     contributor_unique: {
       type: String,
-      required: true
+      required: true,
     },
     contributor_contribution: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   })
 )

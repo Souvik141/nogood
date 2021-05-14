@@ -4,22 +4,22 @@ module.exports = mongoose.model(
   mongoose.Schema({
     email: {
       type: String,
-      required: true
+      required: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     verificationCode: String,
     verificationCodeTimestamp: Number,
     formalized: {
       type: Boolean,
       default: false,
-      required: true
+      required: true,
     },
     FormalEntity_Id: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "FormalEntity"
-    }
+      ref: "FormalEntity",
+    },
   })
 )

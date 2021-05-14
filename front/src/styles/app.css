@@ -8,10 +8,14 @@ input:focus {
 .hidden {
   display: none;
 }
-.lgin-frm-onclk {
+.login-form-onclick {
   position: fixed;
   left: 50vw;
   top: 50vh;
   transform: translate(-50%, -50%);
   z-index: 2;
+}
+.container {
+  max-width: 1140px;
+  width: 100%;
 }

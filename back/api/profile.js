@@ -9,7 +9,7 @@ const bodyParser = require("body-parser")
 
 router.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 )
 router.use(bodyParser.json())
@@ -18,11 +18,11 @@ const {handleError} = require("../config")
 
 const storage = multer.diskStorage({
   destination: function (rqst, res, cb) {
-    cb(null, "uploads/")
+    cb(null, config.front_file_uploads_path)
   },
   filename: function (rqst, file, cb) {
     cb(null, Date.now() + "-" + file.originalname)
-  }
+  },
 })
 const upload = multer({storage: storage})
 
@@ -40,7 +40,7 @@ router.put(
     formalEntity
       .findOne()
       .where({
-        email: rqst.body.email
+        email: rqst.body.email,
       })
       .exec((ahOh, ntt) => {
         if (ahOh) handleError(ahOh)
@@ -57,7 +57,7 @@ router.put(
                 : ntt.middleName,
               lastName: rqst.body.lastName ? rqst.body.lastName : ntt.lastName,
               dateOfBirth: rqst.body.dob ? rqst.body.dob : ntt.dob,
-              Image_Id: new_img ? new_img._id : ntt.Image_Id
+              Image_Id: new_img ? new_img._id : ntt.Image_Id,
             },
             (ahOh, ntt) => {
               if (ahOh) config.handleError(ahOh, rqst, rspns)

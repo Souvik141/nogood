@@ -12,7 +12,7 @@ const bodyParser = require("body-parser")
 
 router.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 )
 router.use(bodyParser.json())

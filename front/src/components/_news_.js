@@ -1,4 +1,3 @@
-import "./news.css"
 import _news_review_, {_news_review_c, _news_review_e} from "./_news_review_"
 import {Component} from "react"
 

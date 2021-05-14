@@ -1,20 +1,9 @@
-import "./auth.css"
 import React, {useState} from "react"
-var domain = "http://localhost:3000/"
-
-async function loginUser(eml, pwd) {
-  return await fetch(domain + "api/auth/request-login", {
-    method: "post",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({
-      email: eml,
-      password: pwd,
-    }),
-  }).then((response) => response.json())
-}
+import {useDispatch, useSelector} from "react-redux"
+import {loginUser} from "../actions/userActions.js"
 
 async function _registerUser(eml, pwd, call) {
-  var responseJson = await fetch(domain + "api/auth/request-registration", {
+  var responseJson = await fetch("api/auth/request-registration", {
     method: "post",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
@@ -31,7 +20,9 @@ async function _registerUser(eml, pwd, call) {
   if (responseJson.description.message_code === "003")
     call("Registration requested, please verify your mail id")
   return await fetch(
-    domain + "api/auth/generate-verification-code?email=" + encodeURI(eml),
+    process.env.SERVER_DOMAIN +
+      "api/auth/generate-verification-code?email=" +
+      encodeURI(eml),
     {
       method: "get",
     }
@@ -41,8 +32,8 @@ async function _registerUser(eml, pwd, call) {
 const _validationTxt = (props) => {
   const {typ, txt} = props
   return (
-    <div className={"msg-blk " + typ}>
-      <p className='msg'>{txt}</p>
+    <div className={"message-block " + typ}>
+      <p className='message'>{txt}</p>
     </div>
   )
 }
@@ -89,7 +80,7 @@ const _form = (props) => {
   var shwPwdButt = () => {
     return (
       <div
-        className={"shw-pwd" + (shwPwd ? " shw-pwd-t" : "")}
+        className={"show-pwd" + (shwPwd ? " show-pwd-t" : "")}
         onMouseDown={() => {
           setShwPwd(true)
         }}
@@ -104,7 +95,7 @@ const _form = (props) => {
       "email",
       "enter your email address",
       onEmlChng,
-      "frm-eml txt",
+      "form-email txt",
       "eml",
       true
     )
@@ -115,7 +106,7 @@ const _form = (props) => {
       shwPwd ? "text" : "password",
       "enter your password",
       onPwdChng,
-      "frm-pwd txt",
+      "form-pwd txt",
       "pwd"
     )
   )
@@ -128,7 +119,7 @@ const _form = (props) => {
       "text",
       "re-enter your password",
       onRtypePwdChng,
-      "frm-pwd txt",
+      "form-pwd txt",
       "rpwd"
     )
   )
@@ -173,7 +164,8 @@ export default class AuthForm extends React.Component {
     })
   }
   _validate() {
-    var mailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+    var mailFormat =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
     var flag = true
     if (this.state.renderedForm === "forgotpwd") {
       if (!this.state.commEml) {
@@ -240,9 +232,9 @@ export default class AuthForm extends React.Component {
       const responseJson = await _registerUser(
         this.state.commEml,
         this.state.commPwd,
-        (msg) => {
+        (message) => {
           this.setState({
-            validationError: msg,
+            validationError: message,
           })
         }
       )
@@ -251,11 +243,14 @@ export default class AuthForm extends React.Component {
   onSubmitForgotPwd = async (event) => {
     event.preventDefault()
     if (this._validate() && this.state.renderedForm === "forgotpwd") {
-      const responseJson = await _registerUser(this.state.commEml, (msg) => {
-        this.setState({
-          validationError: msg,
-        })
-      })
+      const responseJson = await _registerUser(
+        this.state.commEml,
+        (message) => {
+          this.setState({
+            validationError: message,
+          })
+        }
+      )
     }
   }
   render() {
@@ -306,7 +301,7 @@ export default class AuthForm extends React.Component {
       rght = "rght"
     var authForm = React.createElement(
       "div",
-      {className: "cmn-auth-bgnd" + parClassName},
+      {className: "cmn-auth-bgnd login-form-onclick"},
       React.createElement(
         "div",
         {className: "auth-form"},
@@ -338,7 +333,7 @@ export default class AuthForm extends React.Component {
             onRtypePwdChng={this.onRtypePwdChng}
           />,
           <input
-            className={"frm-sbmt " + sbmt_cls_nme}
+            className={"form-submit " + sbmt_cls_nme}
             onClick={sbmt_btn_actn}
             type='submit'
             value={sbmt_btn_txt}
@@ -346,7 +341,7 @@ export default class AuthForm extends React.Component {
         ),
         React.createElement(
           "div",
-          {className: "auth-xtrs"},
+          {className: "auth-xtras"},
           <a
             key={lft}
             onClick={() => this.setState({renderedForm: leftlinkActn})}>
@@ -363,8 +358,10 @@ export default class AuthForm extends React.Component {
     return (
       <>
         {authForm}
-        <div className={"lgin-frm-onclk-clone" + parClassName}>
-          <div className='xcls-bttn' onClick={() => obscureAuthForm()}></div>
+        <div className={"login-form-onclick login-form-onclick-clone"}>
+          <div
+            className='xclose-button'
+            onClick={() => obscureAuthForm()}></div>
         </div>
       </>
     )

@@ -9,12 +9,12 @@ module.exports = mongoose.model(
     request_body: String,
     error_description: {
       type: String,
-      required: true
+      required: true,
     },
     gmt_timestamp: {
       type: Date,
       required: true,
-      default: Date()
-    }
+      default: Date(),
+    },
   })
 )

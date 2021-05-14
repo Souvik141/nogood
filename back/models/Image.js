@@ -5,11 +5,11 @@ module.exports = mongoose.model(
     {
       img: {
         data: Buffer,
-        contentType: String
-      }
+        contentType: String,
+      },
     },
     {
-      timestamps: true
+      timestamps: true,
     }
   )
 )

@@ -15,7 +15,6 @@ export default class DefaultLandingPage extends React.Component {
     const parClassName = this.props.className ? " " + this.props.className : ""
     return (
       <div className={"dflt-lndng" + parClassName}>
-        <div className='nav'></div>
         <div className='convo-sctn'>
           <ConvoSection />
         </div>

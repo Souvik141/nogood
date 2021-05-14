@@ -1,37 +1,19 @@
 {
   "name": "npgood",
   "version": "0.1.0",
-  "private": false,
   "description": "not have any, for now",
   "scripts": {
     "start": "nodemon back/server.js",
     "server": "nodemon back/server.js",
     "client": "npm start --prefix front",
-    "pretty": "npm run-script pretty --prefix front && npm run-script pretty --prefix back"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "pretty": "prettier --write \"./**/*.{js,jsx,json}\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Souvik141/front-client.git"
+    "url": "git+https://github.com/Souvik141/nogood.git"
   },
   "author": "sav",
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 2,
@@ -44,10 +26,22 @@
     "htmlWhitespaceSensitivity": "css",
     "endOfLine": "lf"
   },
-  "bugs": {
-    "url": "https://github.com/Souvik141/front-client/issues"
-  },
-  "homepage": "https://github.com/Souvik141/front-client#readme",
   "main": "index.js",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^6.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^9.0.2",
+    "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.8",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "nodemailer": "^6.6.0",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.3.0",
+    "react-redux": "^7.2.4",
+    "redux-devtools-extension": "^2.13.9"
+  }
 }

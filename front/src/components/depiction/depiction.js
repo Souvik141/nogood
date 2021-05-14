@@ -1,7 +1,7 @@
-import "./depiction.css"
 import axios from "axios"
 import {Component} from "react"
 import imageCompression from "browser-image-compression"
+const config = require("../component-config")
 
 async function _updateInfo(state, userData) {
   const config = {
@@ -9,9 +9,6 @@ async function _updateInfo(state, userData) {
       "content-type": "multipart/form-data",
     },
   }
-  console.log("UPDATE INFO")
-  console.log(state)
-  console.log(userData)
   const data = new FormData()
   data.append("email", state.email)
   if (state.firstName !== userData.firstName)
@@ -27,7 +24,7 @@ async function _updateInfo(state, userData) {
     console.log("Key:" + key + "->Value:" + value)
   })
   axios
-    .put("http://localhost:3000/api/profile/update-depiction", data, config)
+    .put("http://127.0.0.1:3000/api/profile/update-depiction", data, config)
     .then((res) => {})
 }
 const arrayBufferToBase64 = (buffer) => {
@@ -37,9 +34,11 @@ const arrayBufferToBase64 = (buffer) => {
   return window.btoa(binary)
 }
 async function _callUserInfo(userData) {
+  console.log("get image")
+  console.log(userData)
   if (userData && userData.Image_Id) {
     var endPoint =
-      "http://localhost:3000/api/profile/get-image?id=" + userData.Image_Id
+      "http://127.0.0.1:3000/api/profile/get-image?id=" + userData.Image_Id
     return await fetch(endPoint)
       .then((res) => res.json())
       .then((data) => {
@@ -66,7 +65,7 @@ export default class Depiction extends Component {
     }
   }
   async componentDidMount() {
-    this.props.reValidate()
+    // this.props.reValidate()
     var imgSrc = await _callUserInfo(this.props.userData)
     if (this.props.userData) {
       this.setState({
@@ -143,7 +142,7 @@ export default class Depiction extends Component {
               <input
                 type='image'
                 src={this.state.imgSrc}
-                alt='the image you uploaded'
+                alt='your image'
                 className='img-prvw'
               />
               <input
@@ -159,7 +158,7 @@ export default class Depiction extends Component {
             </div>
             <div className='ntt-dtls'>
               <div className='frm-dvs'>
-                <label for='firstname' className='frm-fld'>
+                <label for='firstname' className='form-field'>
                   first name
                 </label>
                 <input
@@ -170,12 +169,12 @@ export default class Depiction extends Component {
                       firstName: event.target.value,
                     })
                   }
-                  className='frm-fld'
+                  className='form-field'
                   value={this.state.firstName}
                 />
               </div>
               <div className='frm-dvs'>
-                <label for='midlname' className='frm-fld'>
+                <label for='midlname' className='form-field'>
                   middle name
                 </label>
                 <input
@@ -186,12 +185,12 @@ export default class Depiction extends Component {
                       midlName: event.target.value,
                     })
                   }
-                  className='frm-fld'
+                  className='form-field'
                   value={this.state.midlName}
                 />
               </div>
               <div className='frm-dvs'>
-                <label for='lastname' className='frm-fld'>
+                <label for='lastname' className='form-field'>
                   last name
                 </label>
                 <input
@@ -202,12 +201,12 @@ export default class Depiction extends Component {
                       lastName: event.target.value,
                     })
                   }
-                  className='frm-fld'
+                  className='form-field'
                   value={this.state.lastName}
                 />
               </div>
               <div className='frm-dvs'>
-                <label for='dob' className='frm-fld'>
+                <label for='dob' className='form-field'>
                   date of birth
                 </label>
                 <input
@@ -218,7 +217,7 @@ export default class Depiction extends Component {
                       dateOfBirth: event.target.value,
                     })
                   }
-                  className='frm-fld dt'
+                  className='form-field dt'
                   value={this.state.dateOfBirth}
                 />
               </div>
